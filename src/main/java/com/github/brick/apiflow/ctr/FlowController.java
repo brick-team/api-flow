@@ -16,9 +16,13 @@
 
 package com.github.brick.apiflow.ctr;
 
+import com.github.brick.apiflow.core.WorkEx;
 import com.github.brick.apiflow.model.flow.FlowEntity;
-import com.github.brick.apiflow.model.rest.ApiEntity;
+import com.github.brick.apiflow.model.flow.ResultExecuteEntity;
 import com.github.brick.apiflow.repo.FlowEntityRepo;
+import com.github.brick.apiflow.repo.ResultEntityRepo;
+import com.google.gson.Gson;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +31,10 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -88,5 +91,36 @@ public class FlowController {
         return ResponseEntity.notFound().build();
     }
 
+    @Autowired
+    private ResultEntityRepo resultEntityRepo;
+    @Autowired
+    private WorkEx workEx;
+
+    @GetMapping("/result")
+    public ResponseEntity result(
+            @RequestParam("result_id") String resultId
+    ) {
+        Optional<ResultExecuteEntity> byId = resultEntityRepo.findById(resultId);
+        ResultExecuteEntity resultExecuteEntity = byId.get();
+        return ResponseEntity.ok(resultExecuteEntity);
+
+    }
+
+    Gson gson = new Gson();
+
+    @PostMapping("/execute")
+    public ResponseEntity execute(
+            @RequestBody Param param
+    ) throws IOException {
+        String u = param.getU();
+        Object vv = workEx.vv(param.getFlowId(), gson.fromJson(u, Map.class));
+        return ResponseEntity.ok(vv);
+    }
+
+    @Data
+    public static class Param {
+        private String flowId;
+        private String u;
+    }
 
 }

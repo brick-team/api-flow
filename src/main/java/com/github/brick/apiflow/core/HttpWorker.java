@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.github.brick.apiflow;
+package com.github.brick.apiflow.core;
 
 import java.io.IOException;
 import java.util.Map;

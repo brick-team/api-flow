@@ -15,18 +15,15 @@
  */
 
 package com.github.brick.apiflow.ctr;
-import com.github.brick.apiflow.model.flow.ExtractExecuteEntity;
-import com.github.brick.apiflow.model.flow.FieldType;
-import com.github.brick.apiflow.model.flow.ExtractModel;
-import com.github.brick.apiflow.model.flow.*;
-import com.google.common.collect.Lists;
 
+import com.github.brick.apiflow.model.flow.*;
 import com.github.brick.apiflow.model.rest.ApiEntity;
 import com.github.brick.apiflow.model.rest.ApiParamEntity;
 import com.github.brick.apiflow.repo.ApiEntityRepo;
 import com.github.brick.apiflow.repo.FlowEntityRepo;
 import com.github.brick.apiflow.repo.ResultEntityRepo;
 import com.github.brick.apiflow.service.SwaggerParseImpl;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +53,9 @@ public class DemoController {
     @GetMapping("/flow")
     public void flow() {
         FlowEntity flow = new FlowEntity();
+        flow.setName("测试");
+        flow.setDesc("测试流程");
+
         ArrayList<WorkExecuteEntity> works = new ArrayList<>();
 
         WorkExecuteEntity e = new WorkExecuteEntity();

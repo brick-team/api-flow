@@ -5,6 +5,9 @@
     <span>工作流程名称= {{ rest_api_return.name }}</span>
     <span>工作流程描述= {{ rest_api_return.desc }}</span>
 
+    <a-button @click="show_result(rest_api_return.resultId)">详情</a-button>
+    <a-button @click="show_r">执行</a-button>
+
 
     <a-table :columns="columns" :data-source="rest_api_return.works"
              defaultExpandAllRows="true"
@@ -29,9 +32,20 @@
     </a-modal>
 
 
-    <a-modal v-model:visible="watcher_visible" destroyOnClose title="接口详情" width="75%">
+    <a-modal v-model:visible="watcher_visible" destroyOnClose title="watcher" width="75%">
       <watcher-ui :input_data="pp_watcher"></watcher-ui>
     </a-modal>
+
+    <a-modal v-model:visible="result_visible" destroyOnClose title="result" width="75%">
+      <result-ui :input_data="result_watcher"></result-ui>
+    </a-modal>
+
+
+    <a-modal v-model:visible="flow_result_visible" destroyOnClose title="ex" width="75%">
+      <flow-result :flow_id="rest_api_return.id"></flow-result>
+    </a-modal>
+
+
   </div>
 
 
@@ -40,10 +54,13 @@
 <script>
 import SwaggerUi from "@/view/swagger-ui";
 import WatcherUi from "@/view/watcher-ui";
+import axios from "axios";
+import ResultUi from "@/view/result-ui";
+import FlowResult from "@/view/flow_result";
 
 export default {
   name: "flow-ui",
-  components: {WatcherUi, SwaggerUi},
+  components: {FlowResult, ResultUi, WatcherUi, SwaggerUi},
   props: {
     input_data: Object,
 
@@ -182,8 +199,14 @@ export default {
 
       pp: {},
       watcher_visible: false,
+      result_visible: false,
 
       pp_watcher: {},
+      result_watcher: {},
+
+
+      flow_result_visible: false,
+
 
     };
   },
@@ -198,7 +221,7 @@ export default {
     show_swagger(f) {
       console.log("11111111111111");
       this.pp = f.restApiForEx;
-      console.log("pp" ,JSON.stringify(this.pp));
+      console.log("pp", JSON.stringify(this.pp));
       this.visible = true;
     },
     show_watcher(f) {
@@ -206,6 +229,28 @@ export default {
       console.log("watcher ", JSON.stringify(f.watchers));
       this.pp_watcher = f.watchers;
       this.watcher_visible = true;
+    },
+    show_result(resultId) {
+      const url = "http://localhost:8080/flow/result";
+      console.log(resultId);
+      axios.get(url, {
+
+        params: {
+          result_id: resultId,
+        }
+
+      }).then(res => {
+
+        this.result_watcher = res.data;
+        this.result_visible = true;
+      }).catch(e => {
+        console.log(e);
+
+      });
+
+    },
+    show_r() {
+      this.flow_result_visible = true;
     },
   },
   setup() {

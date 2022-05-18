@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.github.brick.apiflow;
+package com.github.brick.apiflow.core;
 
 import com.github.brick.apiflow.model.flow.ExtractModel;
 import com.google.gson.Gson;
@@ -22,8 +22,6 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-
-import java.util.Map;
 
 /**
  * @author Zen Huifer

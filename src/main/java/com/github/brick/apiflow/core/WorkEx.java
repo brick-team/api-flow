@@ -1,6 +1,21 @@
-package com.github.brick.apiflow;
+/*
+ *    Copyright [2022] [brick-team]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 
-import com.github.brick.apiflow.core.*;
+package com.github.brick.apiflow.core;
+
 import com.github.brick.apiflow.model.flow.*;
 import com.github.brick.apiflow.model.rest.ApiEntity;
 import com.github.brick.apiflow.model.rest.ApiParamEntity;
@@ -9,19 +24,17 @@ import com.github.brick.apiflow.repo.FlowEntityRepo;
 import com.github.brick.apiflow.repo.ResultEntityRepo;
 import com.google.gson.Gson;
 import net.minidev.json.JSONArray;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
 
-@SpringBootTest
-class ApiFlowApplicationTests {
-
-    private static final Logger logger = LoggerFactory.getLogger(ApiFlowApplicationTests.class);
+@Service
+public class WorkEx {
+    private static final Logger logger = LoggerFactory.getLogger(WorkEx.class);
     Gson gson = new Gson();
     ActionFlowCondition actionFlowCondition = new ActionFlowConditionImpl();
     @Autowired
@@ -29,31 +42,32 @@ class ApiFlowApplicationTests {
     @Autowired
     private ResultEntityRepo resultEntityRepo;
 
-    @Test
-    void testFLow() throws Exception {
-        Optional<FlowEntity> byId = flowEntityRepo.findById("6284996796e28d6fc3e1c0db");
+    public Object vv(String flowId, Map<String, String> u) throws IOException {
 
-        FlowEntity flow = byId.get();
-        Map<String, String> u = new HashMap<>();
+        Optional<FlowEntity> byId = flowEntityRepo.findById(flowId);
 
-        u.put("uuu", "1");
+        if (byId.isPresent()) {
 
-        List<WorkExecuteEntity> works = flow.getWorks();
+            FlowEntity flow = byId.get();
 
-        Map<String, Object> stepMap = new HashMap<>();
-        for (WorkExecuteEntity work : works) {
-            executeWork(u, stepMap, work);
+            List<WorkExecuteEntity> works = flow.getWorks();
 
+            Map<String, Object> stepMap = new HashMap<>();
+            for (WorkExecuteEntity work : works) {
+                executeWork(u, stepMap, work);
+
+            }
+
+            logger.info("步骤数据 = {} ", stepMap);
+            String resultId = flow.getResultId();
+            Optional<ResultExecuteEntity> byId1 = resultEntityRepo.findById(resultId);
+            ResultExecuteEntity resultExecuteEntity = byId1.get();
+
+            Map<String, Object> stringObjectMap = handlerResult(resultExecuteEntity, stepMap);
+            logger.info("实际响应 = {} ", stringObjectMap);
+            return stringObjectMap;
         }
-//        System.out.println(stepMap);
-
-        logger.info("步骤数据 = {} ", stepMap);
-        String resultId = flow.getResultId();
-        Optional<ResultExecuteEntity> byId1 = resultEntityRepo.findById(resultId);
-        ResultExecuteEntity resultExecuteEntity = byId1.get();
-
-        Map<String, Object> stringObjectMap = handlerResult(resultExecuteEntity, stepMap);
-        logger.info("实际响应 = {} ", stringObjectMap);
+        return null;
     }
 
     private Map<String, Object> handlerResult(ResultExecuteEntity resultExecuteEntity, Map<String, Object> stepWorkResult) {
@@ -67,6 +81,8 @@ class ApiFlowApplicationTests {
         }
         return res;
     }
+
+
 
     private Map<String, Object> handlerFieldExecuteEntity(Map<String, Object> stepWorkResult, FieldExecuteEntity field) {
         Map<String, Object> res = new HashMap<>();

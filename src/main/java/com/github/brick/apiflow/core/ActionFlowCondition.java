@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.github.brick.apiflow;
+package com.github.brick.apiflow.core;
 
 
 import com.github.brick.apiflow.model.flow.ExtractModel;
