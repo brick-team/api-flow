@@ -29,6 +29,8 @@ public class FlowEntity {
 
     @Id
     private String id;
+    private String name;
+    private String desc;
     private List<WorkExecuteEntity> works;
     private String resultId;
 

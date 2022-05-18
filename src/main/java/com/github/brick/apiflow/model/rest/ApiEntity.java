@@ -35,8 +35,8 @@ public class ApiEntity {
     private String method;
     private String desc;
 
-    private List<ApiParamEntity> params = new ArrayList<>();
-    private List<ApiParamEntity> res = new ArrayList<>();
+    private List<ApiParamEntity> params ;
+    private List<ApiParamEntity> res ;
 
 
 }

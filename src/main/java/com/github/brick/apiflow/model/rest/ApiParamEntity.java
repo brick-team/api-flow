@@ -34,7 +34,7 @@ public class ApiParamEntity {
     private String defaultValue;
 
 
-    private List<ApiParamEntity> paramEntities = new ArrayList<>();
+    private List<ApiParamEntity> paramEntities ;
 
     private ExtractExecuteEntity extract;
 

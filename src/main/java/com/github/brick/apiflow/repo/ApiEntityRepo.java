@@ -17,6 +17,7 @@
 package com.github.brick.apiflow.repo;
 
 import com.github.brick.apiflow.model.rest.ApiEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +28,6 @@ public interface ApiEntityRepo extends MongoRepository<ApiEntity, String> {
 
 
     Optional<ApiEntity> findByUid(String uid);
+
 
 }
