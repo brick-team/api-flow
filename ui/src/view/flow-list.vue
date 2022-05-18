@@ -28,14 +28,20 @@
       </template>
     </a-table>
 
+    <a-modal v-model:visible="visible" destroyOnClose="true" title="flow详情" width="75%">
+      <flow-ui :input_data="dd"></flow-ui>
+
+    </a-modal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import FlowUi from "@/view/flow-ui";
 
 export default {
   name: "flow-list",
+  components: {FlowUi},
   props: {
     input_data: Object,
     show_filter: Boolean,
@@ -43,6 +49,8 @@ export default {
   },
   data() {
     return {
+      visible: false,
+      dd: {},
       pagination: {
         pageSize: 0,
         current: 1,
@@ -90,7 +98,9 @@ export default {
   },
   methods: {
     show_flow(e) {
-      console.log(e);
+      console.log("准备写出", e.works);
+      this.dd = e;
+      this.visible = true;
     },
     search_api(page, size) {
       const api_page = 'http://localhost:8080/flow/page';

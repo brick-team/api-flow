@@ -20,15 +20,18 @@
 
         <a @click="show_watcher(record)">查看</a>
 
-
       </template>
 
 
     </a-table>
-    <a-modal v-model:visible="visible" destroyOnClose title="信息" width="75%">
+    <a-modal v-model:visible="visible" destroyOnClose title="接口详情" width="75%">
       <swagger-ui :param_inp="pp" :show_op="true"/>
     </a-modal>
 
+
+    <a-modal v-model:visible="watcher_visible" destroyOnClose title="接口详情" width="75%">
+      <watcher-ui :input_data="pp_watcher"></watcher-ui>
+    </a-modal>
   </div>
 
 
@@ -36,10 +39,15 @@
 
 <script>
 import SwaggerUi from "@/view/swagger-ui";
+import WatcherUi from "@/view/watcher-ui";
 
 export default {
   name: "flow-ui",
-  components: {SwaggerUi},
+  components: {WatcherUi, SwaggerUi},
+  props: {
+    input_data: Object,
+
+  },
 
   data() {
     return {
@@ -175,19 +183,28 @@ export default {
       pp: {},
       watcher_visible: false,
 
+      pp_watcher: {},
+
     };
   },
   created() {
+    if (this.input_data) {
+      console.log("flow-ui-init ", JSON.stringify(this.input_data));
+      this.rest_api_return = this.input_data;
 
+    }
   },
   methods: {
     show_swagger(f) {
+      console.log("11111111111111");
       this.pp = f.restApiForEx;
-      console.log("aapp");
+      console.log("pp" ,JSON.stringify(this.pp));
       this.visible = true;
     },
     show_watcher(f) {
-      console.log(f);
+      console.log("开始观察");
+      console.log("watcher ", JSON.stringify(f.watchers));
+      this.pp_watcher = f.watchers;
       this.watcher_visible = true;
     },
   },

@@ -24,7 +24,6 @@
 
 <script>
 import {defineComponent} from 'vue';
-import axios from "axios";
 
 
 export default defineComponent({
@@ -55,7 +54,35 @@ export default defineComponent({
           width: '12%',
         },
       ],
-      rest_api_return: {}
+      rest_api_return: {
+        "uid": "62833f1858f599635e0a8cd5",
+        "id": null,
+        "url": "/getAge",
+        "method": "get",
+        "desc": "getAge",
+        "params": [{
+          "flag": null,
+          "in": "query",
+          "name": "uid",
+          "require": true,
+          "type": "string",
+          "id": null,
+          "defaultValue": null,
+          "paramEntities": [],
+          "extract": null
+        }],
+        "res": [{
+          "flag": null,
+          "in": null,
+          "name": null,
+          "require": false,
+          "type": "integer",
+          "id": null,
+          "defaultValue": null,
+          "paramEntities": [],
+          "extract": null
+        }]
+      }
     }
 
   },
@@ -72,38 +99,17 @@ export default defineComponent({
       },);
 
     }
-    console.log("kaishi");
-    console.log(this.param_inp);
-
-    if (this.uid) {
-      this.search_api(this.uid);
+    console.log("开始初始化swagger-ui");
+    if (this.param_inp) {
+      console.log("初始化数据= ", JSON.stringify(this.param_inp));
+      this.rest_api_return = this.param_inp;
     }
-
 
 
   },
   methods: {
-    change_param_node(text, record, index, e) {
-      record.value = e.target.value;
-      console.log(text, record, index, e.target.value);
-    },
 
-    search_api(uid) {
-      console.log("开始")
-      const api_by_id = 'http://localhost:8080/rest_api/by_id';
-      axios.get(api_by_id, {
-        params: {
-          uid: uid,
-        },
-      }).then(res => {
-        console.log("接口响应")
-        console.log(res.data);
-        this.rest_api_return = res.data;
 
-      }).catch(e=>{
-        console.log(e);
-      })
-    }
   },
   setup(props) {
     console.log(props);

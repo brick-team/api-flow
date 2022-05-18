@@ -26,11 +26,11 @@
 
 
       </template>
+
     </a-table>
 
-    <a-modal v-model:visible="visible" destroyOnClose title="信息" width="75%">
-
-      <swagger-ui :show_op="false" :uid="uid" v-if="input_data"/>
+    <a-modal v-model:visible="visible" destroyOnClose="true" title="信息" width="75%">
+      <swagger-ui :show_op="show_op" :param_inp="fd"/>
     </a-modal>
   </div>
 </template>
@@ -44,6 +44,7 @@ export default {
   name: "swagger-list",
   components: {SwaggerUi},
   props: {
+    show_step: Boolean,
     input_data: Object,
     show_filter: Boolean,
 
@@ -51,6 +52,7 @@ export default {
 
   data() {
     return {
+      show_op: false,
       uid: 1,
       pagination: {
         pageSize: 0,
@@ -76,6 +78,14 @@ export default {
           title: '接口说明',
           dataIndex: 'desc',
           key: 'desc',
+        },
+        {
+          title: '步骤号',
+          dataIndex: 'step',
+          key: 'step',
+          slots: {
+            customRender: 'step',
+          },
         },
         {
           title: '操作',
@@ -182,14 +192,14 @@ export default {
       visible: false,
       api_desc: "",
       api_path: "",
+      fd: {},
 
     };
   },
   created() {
     if (this.input_data) {
       this.res_ret = this.input_data;
-      console.log("外部进入");
-      console.log(this.res_ret);
+      console.log("外部输入", JSON.stringify(this.input_data));
     } else {
       this.search_api(1, 3);
 
@@ -223,18 +233,36 @@ export default {
     },
 
     show_swagger(key) {
-      console.log(key);
-      console.log(key.uid);
-      this.visible = true;
       if (this.input_data) {
-        console.log(key.params);
+        console.log("data = ", this.input_data);
+        this.fd = this.input_data.content[0];
+        console.log("即将输出 ", JSON.stringify(this.fd));
+        this.show_op = true;
+        this.visible = true;
+
 
       } else {
-        this.uid = key.uid;
+        console.log(key);
+        console.log(key.uid);
+
+        const api_by_id = 'http://localhost:8080/rest_api/by_id';
+
+        axios.get(api_by_id, {
+          params: {
+            uid: key.uid,
+          },
+        }).then(res => {
+          console.log("数据信息" + JSON.stringify(res.data));
+          this.fd = res.data;
+          this.visible = true;
+        }).catch(e => {
+          console.log(e);
+        });
 
       }
     },
   },
+
 
   setup() {
 

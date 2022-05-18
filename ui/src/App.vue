@@ -7,18 +7,21 @@
         <a-menu-item key="5">
           <a href="/#/swagger-list">swagger</a>
         </a-menu-item>
+        <!--        <a-menu-item key="2">-->
+        <!--          <a href="/#/swagger">swagger=ui</a>-->
+        <!--        </a-menu-item>-->
         <a-menu-item key="3">
           <a href="/#/flow-list">流程列表</a>
         </a-menu-item>
-        <a-menu-item key="6">
-          <a href="/#/flow-ui">流程视图</a>
-        </a-menu-item>
+        <!--        <a-menu-item key="6">-->
+        <!--          <a href="/#/flow-ui">流程视图</a>-->
+        <!--        </a-menu-item>-->
         <a-menu-item key="7">
           <a href="/#/result-ui">响应体</a>
         </a-menu-item>
-        <a-menu-item key="8">
-          <a href="/#/watcher-ui">观察</a>
-        </a-menu-item>
+        <!--        <a-menu-item key="8">-->
+        <!--          <a href="/#/watcher-ui">观察</a>-->
+        <!--        </a-menu-item>-->
       </a-menu>
     </a-layout-sider>
     <a-layout-content style="margin: 0 16px">
