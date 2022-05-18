@@ -1,0 +1,35 @@
+{
+  "_id": {
+    "$oid": "6284996796e28d6fc3e1c0da"
+  },
+  // 响应对象字段
+  "fields": [
+    {
+      // 字段名称
+      "fieldName": "sss",
+      "type": "STRING",
+      // 取值表达式,
+      "extract": {
+        // 获取那个字段
+        "el": "$.name",
+        "elType": "JSON_PATH",
+        // 从哪一个步骤中获取数据
+        "step": "2"
+      },
+      "properties": [
+      ]
+    },
+    {
+      "fieldName": "age",
+      "type": "INTEGER",
+      "extract": {
+        "el": "$.age",
+        "elType": "JSON_PATH",
+        "step": "1"
+      },
+      "properties": [
+      ]
+    }
+  ],
+  "_class": "com.github.brick.apiflow.model.flow.ResultExecuteEntity"
+}
