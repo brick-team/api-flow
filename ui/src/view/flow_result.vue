@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      pp: "",
+      pp: "{\"uuu\":\"1\"}",
       rs: "",
 
     }
