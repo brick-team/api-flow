@@ -13,7 +13,12 @@ api 编排工具，api 数据来源swagger，存储介质使用 mongo 。 本项
 
 1. 将本项目中的swagger接口进行初始化 `curl localhost:8080/swagger`
 2. 将本项目的工作流初始化 `curl localhost:8080/flow` 初始化关键数据有[flow_json](file/flow_json.json)和[result](file/result.json)
-3. 执行 `com.github.brick.apiflow.ApiFlowApplicationTests.testFLow` 相关日志如下
+3. 启动前端项目
+```shell
+cd ui 
+yarn install
+```
+4. 执行 `com.github.brick.apiflow.ApiFlowApplicationTests.testFLow` 相关日志如下
 
 ```
 

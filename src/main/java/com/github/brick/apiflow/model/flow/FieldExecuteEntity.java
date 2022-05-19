@@ -27,7 +27,5 @@ public class FieldExecuteEntity {
     private FieldType type;
     private String value;
     private ExtractExecuteEntity extract;
-    private List<FieldExecuteEntity> properties = new ArrayList<>();
-
-
+    private List<FieldExecuteEntity> properties;
 }

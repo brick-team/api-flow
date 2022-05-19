@@ -25,7 +25,6 @@ import java.util.List;
 public class WatcherExecuteEntity {
     private String condition;
     private ExtractModel elType;
-    private List<WorkExecuteEntity> then = new ArrayList<>();
-
-    private List<WorkExecuteEntity> cat = new ArrayList<>();
+    private List<WorkExecuteEntity> then;
+    private List<WorkExecuteEntity> cat;
 }

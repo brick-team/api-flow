@@ -34,6 +34,6 @@ public class WorkExecuteEntity {
 
     private ApiEntity restApiForEx;
 
-    private List<WatcherExecuteEntity> watchers = new ArrayList<>();
+    private List<WatcherExecuteEntity> watchers;
 
 }

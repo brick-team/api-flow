@@ -30,13 +30,7 @@ public class ApiParamEntity {
     private boolean require;
     private String type;
     private Long id;
-
     private String defaultValue;
-
-
     private List<ApiParamEntity> paramEntities ;
-
     private ExtractExecuteEntity extract;
-
-
 }
