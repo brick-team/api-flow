@@ -1,22 +1,39 @@
 package com.github.brick.apiflow;
 
-import com.github.brick.apiflow.core.*;
-import com.github.brick.apiflow.model.flow.*;
+import com.github.brick.apiflow.core.ActionFlowCondition;
+import com.github.brick.apiflow.core.ActionFlowConditionImpl;
+import com.github.brick.apiflow.core.Extract;
+import com.github.brick.apiflow.core.HttpWorker;
+import com.github.brick.apiflow.core.JsonPathExtract;
+import com.github.brick.apiflow.core.OkHttpWorkerImpl;
+import com.github.brick.apiflow.model.flow.ExtractExecuteEntity;
+import com.github.brick.apiflow.model.flow.ExtractModel;
+import com.github.brick.apiflow.model.flow.FieldExecuteEntity;
+import com.github.brick.apiflow.model.flow.FieldType;
+import com.github.brick.apiflow.model.flow.FlowEntity;
+import com.github.brick.apiflow.model.flow.ResultExecuteEntity;
+import com.github.brick.apiflow.model.flow.WatcherExecuteEntity;
+import com.github.brick.apiflow.model.flow.WorkExecuteEntity;
 import com.github.brick.apiflow.model.rest.ApiEntity;
 import com.github.brick.apiflow.model.rest.ApiParamEntity;
 import com.github.brick.apiflow.model.rest.ParamIn;
 import com.github.brick.apiflow.repo.FlowEntityRepo;
 import com.github.brick.apiflow.repo.ResultEntityRepo;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import net.minidev.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.IOException;
-import java.util.*;
+import org.springframework.util.CollectionUtils;
 
 @SpringBootTest
 class ApiFlowApplicationTests {
@@ -31,7 +48,7 @@ class ApiFlowApplicationTests {
 
     @Test
     void testFLow() throws Exception {
-        Optional<FlowEntity> byId = flowEntityRepo.findById("6284996796e28d6fc3e1c0db");
+        Optional<FlowEntity> byId = flowEntityRepo.findById("t1");
 
         FlowEntity flow = byId.get();
         Map<String, String> u = new HashMap<>();
@@ -178,24 +195,27 @@ class ApiFlowApplicationTests {
         stepMap.put(step, o);
 
         List<WatcherExecuteEntity> watchers = work.getWatchers();
-        for (WatcherExecuteEntity watcher : watchers) {
-            ExtractModel elType = watcher.getElType();
-            String condition = watcher.getCondition();
-            boolean aBoolean = actionFlowCondition.condition(condition, elType, o);
+        if (!CollectionUtils.isEmpty(watchers)) {
 
-            if (aBoolean) {
-                List<WorkExecuteEntity> then = watcher.getThen();
-                for (WorkExecuteEntity workExecuteEntity : then) {
-                    executeWork(u, stepMap, workExecuteEntity);
-                }
-            }
-            else {
-                List<WorkExecuteEntity> cat = watcher.getCat();
-                for (WorkExecuteEntity workExecuteEntity : cat) {
-                    executeWork(u, stepMap, workExecuteEntity);
+            for (WatcherExecuteEntity watcher : watchers) {
+                ExtractModel elType = watcher.getElType();
+                String condition = watcher.getCondition();
+                boolean aBoolean = actionFlowCondition.condition(condition, elType, o);
+
+                if (aBoolean) {
+                    List<WorkExecuteEntity> then = watcher.getThen();
+                    for (WorkExecuteEntity workExecuteEntity : then) {
+                        executeWork(u, stepMap, workExecuteEntity);
+                    }
+                } else {
+                    List<WorkExecuteEntity> cat = watcher.getCat();
+                    for (WorkExecuteEntity workExecuteEntity : cat) {
+                        executeWork(u, stepMap, workExecuteEntity);
+                    }
                 }
             }
         }
+
     }
 
     private Object handlerRestApi(ApiEntity restApi, String jsonData) throws IOException {

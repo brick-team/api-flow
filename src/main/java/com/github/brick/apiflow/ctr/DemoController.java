@@ -53,6 +53,7 @@ public class DemoController {
     @GetMapping("/flow")
     public void flow() {
         FlowEntity flow = new FlowEntity();
+        flow.setId("t1");
         flow.setName("测试");
         flow.setDesc("测试流程");
 
@@ -61,10 +62,10 @@ public class DemoController {
         WorkExecuteEntity e = new WorkExecuteEntity();
         e.setStep("1");
         e.setAsync(false);
-        e.setRestId("62833f1858f599635e0a8cd5");
+        e.setRestId("642a40231db3cf100dbdfca3");
 
 
-        Optional<ApiEntity> byId = this.apiEntityRepo.findById("62833f1858f599635e0a8cd5");
+        Optional<ApiEntity> byId = this.apiEntityRepo.findById("642a40231db3cf100dbdfca3");
         if (byId.isPresent()) {
             ApiEntity apiEntity = byId.get();
 
@@ -88,9 +89,9 @@ public class DemoController {
         WorkExecuteEntity e2 = new WorkExecuteEntity();
         e2.setStep("2");
         e2.setAsync(false);
-        e2.setRestId("62833f1858f599635e0a8cd6");
+        e2.setRestId("642a40231db3cf100dbdfca4");
 
-        Optional<ApiEntity> byId2 = this.apiEntityRepo.findById("62833f1858f599635e0a8cd6");
+        Optional<ApiEntity> byId2 = this.apiEntityRepo.findById("642a40231db3cf100dbdfca4");
         if (byId2.isPresent()) {
             ApiEntity apiEntity = byId2.get();
 

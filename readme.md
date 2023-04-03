@@ -22,8 +22,7 @@ yarn install
 
 ```
 
-2022-05-17 15:28:02.983 INFO 38648 --- [           main] c.g.b.apiflow.ApiFlowApplicationTests    : 接口 url
-= http://localhost:8080//getAge , 执行结果 = {"age":22} 2022-05-17 15:28:03.023 INFO 38648 --- [           main]
+2022-05-17 15:28:02.983 INFO 38648 --- [           main] c.g.b.apiflow.ApiFlowApplicationTests    : 接口 url= http://localhost:8080//getAge , 执行结果 = {"age":22} 2022-05-17 15:28:03.023 INFO 38648 --- [           main]
 c.g.b.apiflow.ApiFlowApplicationTests    : 接口 url = http://localhost:8080//getUs , 执行结果 = {"name":"zhangsan","age":1,"
 uss":null} 2022-05-17 15:28:03.023 INFO 38648 --- [           main] c.g.b.apiflow.ApiFlowApplicationTests    : 步骤数据 =
 {1={"age":22}, 2={"name":"zhangsan","age":1,"uss":null}} 2022-05-17 15:28:03.032 INFO 38648 --- [           main]
